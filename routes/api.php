@@ -42,6 +42,7 @@ Route::put('/v1/users/{username}/accept', [FollowController::class, 'acceptFollo
 
 Route::get('/v1/users/{username}/following', [FollowController::class, 'getFollowing'])->middleware('auth:sanctum');
 Route::get('/v1/users/{username}/followers', [FollowController::class, 'getFollowers'])->middleware('auth:sanctum');
+Route::get('/v1/users/{username}/followers/request', [FollowController::class, 'getFollowersRequest'])->middleware('auth:sanctum');
 
 Route::get('/v1/users', [UserController::class, 'getUsers'])->middleware('auth:sanctum');
 Route::get('/v1/users/{username}', [UserController::class, 'getDetailUser'])->middleware('auth:sanctum');

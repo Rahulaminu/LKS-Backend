@@ -21,10 +21,29 @@ class FollowController extends Controller
 
         $followers = Follow::where('following_id', $follower->id)
             ->where('is_acccepted', true)
-            ->with('follower') // Ambil data pengguna pengikut
+            ->with('follower')
             ->get()
             ->pluck('follower');
+        return response()->json([
+            "followers" => $followers
+        ], 200);
+    }
 
+    public function getFollowersRequest(Request $request, $username)
+    {
+        $follower = User::where('username', $username)->first();
+
+        if (!$follower) {
+            return response()->json([
+                "message" => "User not found"
+            ], 404);
+        }
+
+        $followers = Follow::where('following_id', $follower->id)
+            ->where('is_acccepted', false)
+            ->with('follower')
+            ->get()
+            ->pluck('follower');
         return response()->json([
             "followers" => $followers
         ], 200);
@@ -32,7 +51,7 @@ class FollowController extends Controller
 
     public function getFollowing($username)
     {
-        
+
         $followings = User::where('username', $username)->first();
 
         $following = Follow::where('follower_id', $followings->id)
